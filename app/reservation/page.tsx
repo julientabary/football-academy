@@ -1,29 +1,46 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ReservationPage() {
-  const [formData, setFormData] = useState({
-    nom: "",
-    prenom: "",
-    age: "",
-    sexe: "",
-    telephone: "",
-    email: "",
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Ici vous pourrez ajouter l'envoi vers un backend ou un service comme Formspree
-    console.log("Données du formulaire:", formData);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/julien.tabary@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          nom: formData.get("nom"),
+          prenom: formData.get("prenom"),
+          age: formData.get("age"),
+          sexe: formData.get("sexe"),
+          telephone: formData.get("telephone"),
+          email: formData.get("email"),
+          _subject: "🎯 Nouvelle demande de séance d'essai - Academy Football",
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -97,8 +114,6 @@ export default function ReservationPage() {
                     <input
                       type="text"
                       name="nom"
-                      value={formData.nom}
-                      onChange={handleChange}
                       required
                       className="w-full bg-zinc-900 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
                       placeholder="Dupont"
@@ -111,8 +126,6 @@ export default function ReservationPage() {
                     <input
                       type="text"
                       name="prenom"
-                      value={formData.prenom}
-                      onChange={handleChange}
                       required
                       className="w-full bg-zinc-900 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
                       placeholder="Lucas"
@@ -129,8 +142,6 @@ export default function ReservationPage() {
                     <input
                       type="number"
                       name="age"
-                      value={formData.age}
-                      onChange={handleChange}
                       required
                       min="4"
                       max="18"
@@ -144,14 +155,13 @@ export default function ReservationPage() {
                     </label>
                     <select
                       name="sexe"
-                      value={formData.sexe}
-                      onChange={handleChange}
                       required
+                      defaultValue=""
                       className="w-full bg-zinc-900 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all appearance-none cursor-pointer"
                     >
                       <option value="" disabled>Choisir</option>
-                      <option value="masculin">Masculin</option>
-                      <option value="feminin">Féminin</option>
+                      <option value="Masculin">Masculin</option>
+                      <option value="Féminin">Féminin</option>
                     </select>
                   </div>
                 </div>
@@ -164,8 +174,6 @@ export default function ReservationPage() {
                   <input
                     type="tel"
                     name="telephone"
-                    value={formData.telephone}
-                    onChange={handleChange}
                     required
                     className="w-full bg-zinc-900 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
                     placeholder="06 12 34 56 78"
@@ -180,8 +188,6 @@ export default function ReservationPage() {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
                     className="w-full bg-zinc-900 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
                     placeholder="parent@email.com"
@@ -191,9 +197,17 @@ export default function ReservationPage() {
                 {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full bg-white text-zinc-950 py-5 rounded-full font-bold text-lg hover:bg-zinc-200 transition-all hover:scale-[1.02] mt-4"
+                  disabled={isSubmitting}
+                  className="w-full bg-white text-zinc-950 py-5 rounded-full font-bold text-lg hover:bg-zinc-200 transition-all hover:scale-[1.02] mt-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
                 >
-                  Envoyer ma demande
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    "Envoyer ma demande"
+                  )}
                 </button>
 
                 <p className="text-center text-zinc-600 text-sm mt-6">
