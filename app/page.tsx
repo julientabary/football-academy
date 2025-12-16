@@ -1,14 +1,11 @@
 "use client";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-import { TrialModal } from "@/components/ui/modal";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Star, Trophy, Users } from "lucide-react";
-import { useState } from "react";
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const images = [
     "/assets/07d06c85-4dca-46b4-b23f-8acd3817dd90-9c13f3a5-dc21-40ac-83e1-1ceee62c2f52.png",
     "/assets/a9f60cbb-09dc-4d07-b372-02e907f54b37-5b0ca432-f27e-4f38-a6a9-502ca91f7d15.png",
@@ -74,9 +71,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white selection:bg-white/20">
-      {/* Modal */}
-      <TrialModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-40 border-b border-white/5 bg-zinc-950/50 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -86,12 +80,12 @@ export default function Home() {
             <a href="#" className="hover:text-white transition-colors">Programme</a>
             <a href="#" className="hover:text-white transition-colors">Contact</a>
           </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
+          <Link 
+            href="/reservation"
             className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors"
           >
             Rejoindre
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -179,12 +173,12 @@ export default function Home() {
             className="max-w-2xl mx-auto"
         >
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Prêt à entrer sur le terrain ?</h2>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="bg-white text-zinc-950 px-8 py-4 rounded-full text-lg font-bold hover:bg-zinc-200 transition-all hover:scale-105"
+            <Link 
+              href="/reservation"
+              className="inline-block bg-white text-zinc-950 px-8 py-4 rounded-full text-lg font-bold hover:bg-zinc-200 transition-all hover:scale-105"
             >
                 Réserver une séance d'essai
-            </button>
+            </Link>
         </motion.div>
       </section>
 
