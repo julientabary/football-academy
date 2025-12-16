@@ -3,19 +3,53 @@
 @tailwind utilities;
 
 :root {
-  --foreground: 255 255 255;
-  --background: 9 9 11;
+  --foreground: 41 37 36;
+  --background: 250 249 247;
+  --accent: 180 140 100;
 }
 
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
   min-height: 100vh;
-  antialiased: true;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--foreground), 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--foreground), 0.4);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Background text effect */
+.bg-text {
+  font-size: clamp(8rem, 20vw, 20rem);
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.03);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
 }
