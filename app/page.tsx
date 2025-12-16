@@ -7,7 +7,7 @@ import { ArrowRight, Star, Trophy, Users } from "lucide-react";
 
 export default function Home() {
   const images = [
-    "/assets/07d06c85-4dca-46b4-b23f-8acd3817dd90-9c13f3a5-dc21-40ac-83e1-1ceee62c2f52.png",
+    "/assets/art-du-geste.png",
     "/assets/a9f60cbb-09dc-4d07-b372-02e907f54b37-5b0ca432-f27e-4f38-a6a9-502ca91f7d15.png",
     "/assets/20d87f2e-cecf-4b73-b892-c8d764e27523-8368cfec-c773-4b54-8724-98b4d6a71f6b.png",
     "/assets/e537c6d0-a124-421c-9312-f45f6f2ebd3a-50a6bdca-b084-4409-a75c-c3f24bc4db22.png",
